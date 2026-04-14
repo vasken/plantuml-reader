@@ -4,15 +4,12 @@ import {
   Download,
   LoaderCircle,
   Play,
-  Sparkles,
   Workflow,
 } from "lucide-react";
 import { renderPlantUmlPng } from "@/lib/plantuml";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 
 const starterDiagram = `@startuml
@@ -99,50 +96,36 @@ function App() {
   return (
     <main className="min-h-screen">
       <div className="container py-8 md:py-12">
-        <section className="animate-fade-up rounded-[2rem] border border-white/70 bg-white/55 p-6 backdrop-blur-xl panel-shadow md:p-8">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div className="space-y-4">
-              <Badge>Tailwind + shadcn/ui + browser-only PlantUML</Badge>
-              <div className="space-y-3">
-                <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-balance md:text-5xl">
-                  Render PlantUML sequence diagrams entirely in the browser.
-                </h1>
-                <p className="max-w-2xl text-sm leading-6 text-muted-foreground md:text-base">
-                  This app uses the TeaVM/CheerpJ-powered PlantUML runtime from the official
-                  browser frontend approach, wrapped in a React interface with Tailwind styling
-                  and shadcn-style components.
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button variant="outline" onClick={() => setSource(starterDiagram)}>
-                <Sparkles className="size-4" />
-                Reset sample
-              </Button>
-              <Button
-                onClick={() =>
-                  setSource((value) => (value.endsWith("\n") ? value.slice(0, -1) : `${value}\n`))
-                }
-              >
-                <Play className="size-4" />
-                Force re-render
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        <section className="mt-8 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+        <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
           <Card className="overflow-hidden">
             <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="rounded-2xl bg-primary/10 p-3 text-primary">
-                  <Workflow className="size-6" />
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-2xl bg-primary/10 p-3 text-primary">
+                    <Workflow className="size-6" />
+                  </div>
+                  <div>
+                    <CardTitle>Sequence source</CardTitle>
+                    <CardDescription>
+                      Edit PlantUML text and the preview updates from the in-browser runtime.
+                    </CardDescription>
+                  </div>
                 </div>
-                <div>
-                  <CardTitle>Sequence source</CardTitle>
-                  <CardDescription>
-                    Edit PlantUML text and the preview updates from the in-browser runtime.
-                  </CardDescription>
+                <div className="flex flex-wrap justify-end gap-2">
+                  <Button variant="outline" size="sm" onClick={() => setSource(starterDiagram)}>
+                    Reset sample
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      setSource((value) =>
+                        value.endsWith("\n") ? value.slice(0, -1) : `${value}\n`,
+                      )
+                    }
+                  >
+                    <Play className="size-4" />
+                    Force re-render
+                  </Button>
                 </div>
               </div>
             </CardHeader>
@@ -202,31 +185,6 @@ function App() {
                     )}
                   </div>
                 </ScrollArea>
-              </div>
-
-              <Separator />
-
-              <div className="grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
-                <div className="rounded-[1.25rem] bg-secondary/50 p-4">
-                  <p className="font-medium text-foreground">Official browser runtime</p>
-                  <p className="mt-1 leading-6">
-                    Uses the same `plantuml.js` initialization pattern as the published PlantUML
-                    in-browser examples.
-                  </p>
-                </div>
-                <div className="rounded-[1.25rem] bg-secondary/50 p-4">
-                  <p className="font-medium text-foreground">No server dependency</p>
-                  <p className="mt-1 leading-6">
-                    Rendering happens entirely in the client via the TeaVM/CheerpJ-based runtime.
-                  </p>
-                </div>
-                <div className="rounded-[1.25rem] bg-secondary/50 p-4">
-                  <p className="font-medium text-foreground">Ready to extend</p>
-                  <p className="mt-1 leading-6">
-                    The runtime wrapper is isolated in `src/lib/plantuml.js` for editor,
-                    persistence, or export features.
-                  </p>
-                </div>
               </div>
             </CardContent>
           </Card>
